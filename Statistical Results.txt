@@ -1,0 +1,243 @@
+*********Shapiro-Wilk Normality Test for Observed Richness*********
+
+data:  chao1_estimates["S.obs", ]
+W = 0.42698, p-value < 2.2e-16
+
+*********Shapiro-Wilk Normality Test for Chao1 Estimated Richness*********
+
+data:  chao1_estimates["S.chao1", ]
+W = 0.4836, p-value < 2.2e-16
+
+*********Wilcoxon Signed Rank Test for Paired Samples*********
+
+data:  chao1_estimates["S.obs", ] and chao1_estimates["S.chao1", ]
+V = 0, p-value < 2.2e-16
+alternative hypothesis: true location shift is not equal to 0
+
+
+*********Sampbias *********
+
+Number of occurences:  4671 
+Raster resolution:  0.0287 
+Convexhull:  
+Geographic extent:
+SpatExtent : -44.6367, -35.5388, -15.8025, -3.0884 (xmin, xmax, ymin, ymax)
+Bias weights:
+               bias_weight      std_dev
+w_roads       1.262381e-01 2.672164e-03
+w_cities      1.769908e-02 4.035695e-04
+w_waterbodies 6.218341e-04 1.199293e-04
+w_airports    4.298439e-06 4.672043e-06
+hp_rate       3.533876e+01 1.561867e+01
+
+*********Initial GLMM model*********
+
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+ Family: Negative Binomial(2650.068)  ( log )
+Formula: S.obs ~ bio2 + (1 | locality_id) + bio4 + bio15 + elev + ia + bio18 + bio19
+   Data: glmm_richness
+Control: glmerControl(optimizer = "bobyqa")
+
+     AIC      BIC   logLik deviance df.resid 
+  1551.6   1587.9   -765.8   1531.6      269 
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-0.90741 -0.41537 -0.09528  0.23010  0.62805 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ locality_id (Intercept) 0.9939   0.997   
+Number of obs: 279, groups:  locality_id, 279
+
+Fixed effects:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  1.18877    0.07229  16.444  < 2e-16 ***
+bio2        -0.18223    0.09647  -1.889  0.05889 .  
+bio4         0.28002    0.13602   2.059  0.03953 *  
+bio15        0.05063    0.11302   0.448  0.65416    
+elev         0.25860    0.09264   2.792  0.00525 ** 
+ia           0.41189    0.17018   2.420  0.01551 *  
+bio18       -0.04558    0.12838  -0.355  0.72257    
+bio19       -0.04496    0.11957  -0.376  0.70690    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+      (Intr) bio2   bio4   bio15  elev   ia     bio18 
+bio2   0.034                                          
+bio4  -0.033  0.136                                   
+bio15 -0.022 -0.247  0.614                            
+elev  -0.032 -0.220 -0.122  0.070                     
+ia    -0.036  0.394  0.662  0.129 -0.217              
+bio18 -0.003 -0.395 -0.196  0.237 -0.272 -0.603       
+bio19  0.006 -0.090 -0.290  0.136  0.062 -0.704  0.605	
+
+*********GLMM 1*********
+
+$`121`
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+Family: Negative Binomial(2650.068)  ( log )
+Formula: S.obs ~ bio2 + bio4 + elev + ia + (1 | locality_id)
+   Data: glmm_richness
+      AIC       BIC    logLik  deviance  df.resid 
+1546.0190 1571.4375 -766.0095 1532.0190       272 
+Random effects:
+ Groups      Name        Std.Dev.
+ locality_id (Intercept) 0.9973  
+Number of obs: 279, groups:  locality_id, 279
+Fixed Effects:
+(Intercept)         bio2         bio4         elev           ia  
+     1.1892      -0.1839       0.2143       0.2479       0.3352  
+
+*********GLMM 2*********
+
+$`122`
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+Family: Negative Binomial(2650.068)  ( log )
+Formula: S.obs ~ bio15 + bio2 + bio4 + elev + ia + (1 | locality_id)
+   Data: glmm_richness
+      AIC       BIC    logLik  deviance  df.resid 
+1547.7213 1576.7710 -765.8607 1531.7213       271 
+Random effects:
+ Groups      Name        Std.Dev.
+ locality_id (Intercept) 0.9975  
+Number of obs: 279, groups:  locality_id, 279
+Fixed Effects:
+(Intercept)        bio15         bio2         bio4         elev           ia  
+    1.18866      0.05992     -0.19212      0.26463      0.25501      0.36077  
+
+attr(,"rank")
+function (x) 
+do.call("rank", list(x))
+<environment: 0x000002099f67caf8>
+attr(,"call")
+AICc(x)
+attr(,"class")
+[1] "function"     "rankFunction"
+attr(,"beta")
+[1] "none"
+
+*********Relative Importance of Variables*********
+
+                     elev ia   bio4 bio2 bio15 bio18 bio19
+Sum of weights:      0.93 0.92 0.80 0.77 0.31  0.30  0.30 
+N containing models:   64   64   64   64   64    64    64 
+
+*********Marginal and Conditional R²*********
+
+                R2m       R2c
+delta     0.1817525 0.8841518
+lognormal 0.1833238 0.8917952
+trigamma  0.1799509 0.8753876
+
+*********Dispersion Test*********
+
+data:  simulationOutput
+dispersion = 2.0745, p-value = 0.08
+alternative hypothesis: two.sided
+
+*********Normality Test (Shapiro-Wilk)*********
+
+data:  simulated_residuals_glmm$scaledResiduals
+W = 0.94007, p-value = 3.17e-09
+
+*********Collinearity Test (VIF)*********
+
+    bio2     bio4    bio15     elev       ia    bio18    bio19 
+1.829897 3.700557 2.589061 1.798871 6.017387 3.392221 3.051221 
+
+*********Autocorrelation Test (Durbin-Watson)*********
+
+data:  residuals ~ fitted_values
+DW = 1.8425, p-value = 0.1781
+alternative hypothesis: true autocorrelation is not 0	
+
+*********Final GLMM Model*********
+
+Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
+ Family: Negative Binomial(2650.068)  ( log )
+Formula: S.obs ~ bio2 + (1 | locality_id) + bio4 + elev + ia
+   Data: glmm_richness
+Control: glmerControl(optimizer = "bobyqa")
+
+     AIC      BIC   logLik deviance df.resid 
+  1546.0   1571.4   -766.0   1532.0      272 
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-0.90837 -0.41153 -0.07101  0.22723  0.62411 
+
+Random effects:
+ Groups      Name        Variance Std.Dev.
+ locality_id (Intercept) 0.9946   0.9973  
+Number of obs: 279, groups:  locality_id, 279
+
+Fixed effects:
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  1.18922    0.07229  16.450  < 2e-16 ***
+bio2        -0.18394    0.08544  -2.153  0.03133 *  
+bio4         0.21430    0.09183   2.334  0.01961 *  
+elev         0.24789    0.08418   2.945  0.00323 ** 
+ia           0.33518    0.10468   3.202  0.00137 ** 
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+     (Intr) bio2   bio4   elev  
+bio2  0.032                     
+bio4 -0.024  0.343              
+elev -0.036 -0.446 -0.342       
+ia   -0.045  0.511  0.637 -0.535
+
+*********Marginal and Conditional R²*********
+
+                R2m       R2c
+delta     0.1803726 0.8840221
+lognormal 0.1819337 0.8916730
+trigamma  0.1785827 0.8752494
+
+*********Dispersion Test*********
+
+data:  simulationOutput
+dispersion = 2.0144, p-value = 0.112
+alternative hypothesis: two.sided
+
+*********Normality Test (Shapiro-Wilk)*********
+
+data:  simulated_residuals_important$scaledResiduals
+W = 0.93354, p-value = 7.277e-10
+
+*********Collinearity Test (VIF)*********
+
+   bio2     bio4     elev       ia 
+1.435797 1.685869 1.485246 2.273769 
+
+*********Autocorrelation Test (Durbin-Watson)*********
+
+data:  residuals ~ fitted_values
+DW = 1.8388, p-value = 0.1684
+alternative hypothesis: true autocorrelation is not 
+
+*********PERMANOVA Test*********
+
+Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 1000
+
+adonis2(formula = distance_matrix ~ bio2 + bio4 + bio15 + bio18 + bio19 + elev + ia, data = environmental_data, permutations = 1000)
+          Df SumOfSqs      R2      F   Pr(>F)    
+bio2       1    1.019 0.00763 2.1888 0.000999 ***
+bio4       1    0.615 0.00460 1.3211 0.052947 .  
+bio15      1    1.957 0.01466 4.2050 0.000999 ***
+bio18      1    1.070 0.00801 2.2991 0.000999 ***
+bio19      1    0.768 0.00575 1.6510 0.008991 ** 
+elev       1    1.046 0.00783 2.2472 0.000999 ***
+ai         1    0.918 0.00687 1.9717 0.003996 ** 
+Residual 271  126.134 0.94463                    
+Total    278  133.527 1.00000                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
