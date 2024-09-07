@@ -1,21 +1,4 @@
-*********Shapiro-Wilk Normality Test for Observed Richness*********
-
-data:  chao1_estimates["S.obs", ]
-W = 0.42698, p-value < 2.2e-16
-
-*********Shapiro-Wilk Normality Test for Chao1 Estimated Richness*********
-
-data:  chao1_estimates["S.chao1", ]
-W = 0.4836, p-value < 2.2e-16
-
-*********Wilcoxon Signed Rank Test for Paired Samples*********
-
-data:  chao1_estimates["S.obs", ] and chao1_estimates["S.chao1", ]
-V = 0, p-value < 2.2e-16
-alternative hypothesis: true location shift is not equal to 0
-
-
-*********Sampbias *********
+#SAMPBIAS
 
 Number of occurences:  4671 
 Raster resolution:  0.0287 
@@ -24,220 +7,116 @@ Geographic extent:
 SpatExtent : -44.6367, -35.5388, -15.8025, -3.0884 (xmin, xmax, ymin, ymax)
 Bias weights:
                bias_weight      std_dev
-w_roads       1.262381e-01 2.672164e-03
-w_cities      1.769908e-02 4.035695e-04
-w_waterbodies 6.218341e-04 1.199293e-04
-w_airports    4.298439e-06 4.672043e-06
-hp_rate       3.533876e+01 1.561867e+01
+w_roads       1.263963e-01 2.666897e-03
+w_cities      1.769835e-02 4.012754e-04
+w_waterbodies 6.016638e-04 1.217423e-04
+w_airports    2.055021e-06 1.812327e-06
+hp_rate       3.437013e+01 1.622319e+01
 
-*********Initial GLMM model*********
 
-Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
- Family: Negative Binomial(2650.068)  ( log )
-Formula: S.obs ~ bio2 + (1 | locality_id) + bio4 + bio15 + elev + ia + bio18 + bio19
-   Data: glmm_richness
-Control: glmerControl(optimizer = "bobyqa")
+#SHAPIRO-WILK OBSERVED RICHNESS
+
+data:  chao1_estimates["S.obs", ]
+W = 0.42906, p-value < 2.2e-16
+
+#SHAPIRO-WILK ESTIMATED RICHNESS
+
+data:  chao1_estimates["S.chao1", ]
+W = 0.49677, p-value < 2.2e-16
+
+#WILCOXON TEST 
+	
+data:  chao1_estimates["S.obs", ] and chao1_estimates["S.chao1", ]
+V = 0, p-value < 2.2e-16
+alternative hypothesis: true location shift is not equal to 0
+
+
+#BEST GLMM MODEL 
+
+Family: nbinom2  ( log )
+Formula:          S.obs ~ bio2 + bio4 + elev + ai + (1 | locality_id)
+Data: data
 
      AIC      BIC   logLik deviance df.resid 
-  1551.6   1587.9   -765.8   1531.6      269 
-
-Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--0.90741 -0.41537 -0.09528  0.23010  0.62805 
+  1544.8   1570.2   -765.4   1530.8      272 
 
 Random effects:
+
+Conditional model:
  Groups      Name        Variance Std.Dev.
- locality_id (Intercept) 0.9939   0.997   
+ locality_id (Intercept) 0.9908   0.9954  
 Number of obs: 279, groups:  locality_id, 279
 
-Fixed effects:
+Dispersion parameter for nbinom2 family (): 5.96e+03 
+
+Conditional model:
             Estimate Std. Error z value Pr(>|z|)    
-(Intercept)  1.18877    0.07229  16.444  < 2e-16 ***
-bio2        -0.18223    0.09647  -1.889  0.05889 .  
-bio4         0.28002    0.13602   2.059  0.03953 *  
-bio15        0.05063    0.11302   0.448  0.65416    
-elev         0.25860    0.09264   2.792  0.00525 ** 
-ia           0.41189    0.17018   2.420  0.01551 *  
-bio18       -0.04558    0.12838  -0.355  0.72257    
-bio19       -0.04496    0.11957  -0.376  0.70690    
+(Intercept)  1.18873    0.07222  16.461  < 2e-16 ***
+bio2        -0.18346    0.08532  -2.150  0.03153 *  
+bio4         0.21495    0.09170   2.344  0.01907 *  
+elev         0.24648    0.08405   2.933  0.00336 ** 
+ai           0.33531    0.10453   3.208  0.00134 ** 
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
-Correlation of Fixed Effects:
-      (Intr) bio2   bio4   bio15  elev   ia     bio18 
-bio2   0.034                                          
-bio4  -0.033  0.136                                   
-bio15 -0.022 -0.247  0.614                            
-elev  -0.032 -0.220 -0.122  0.070                     
-ia    -0.036  0.394  0.662  0.129 -0.217              
-bio18 -0.003 -0.395 -0.196  0.237 -0.272 -0.603       
-bio19  0.006 -0.090 -0.290  0.136  0.062 -0.704  0.605	
+# SHAPIRO-WILK TEST FOR THE BEST GLMM MODEL 
 
-*********GLMM 1*********
+W = 0.95588, p-value = 1.784e-07
 
-$`121`
-Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
-Family: Negative Binomial(2650.068)  ( log )
-Formula: S.obs ~ bio2 + bio4 + elev + ia + (1 | locality_id)
-   Data: glmm_richness
-      AIC       BIC    logLik  deviance  df.resid 
-1546.0190 1571.4375 -766.0095 1532.0190       272 
-Random effects:
- Groups      Name        Std.Dev.
- locality_id (Intercept) 0.9973  
-Number of obs: 279, groups:  locality_id, 279
-Fixed Effects:
-(Intercept)         bio2         bio4         elev           ia  
-     1.1892      -0.1839       0.2143       0.2479       0.3352  
+# BREUSCH-PAGAN TEST
 
-*********GLMM 2*********
+BP = 4.8899, df = 4, p-value = 0.2988
 
-$`122`
-Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
-Family: Negative Binomial(2650.068)  ( log )
-Formula: S.obs ~ bio15 + bio2 + bio4 + elev + ia + (1 | locality_id)
-   Data: glmm_richness
-      AIC       BIC    logLik  deviance  df.resid 
-1547.7213 1576.7710 -765.8607 1531.7213       271 
-Random effects:
- Groups      Name        Std.Dev.
- locality_id (Intercept) 0.9975  
-Number of obs: 279, groups:  locality_id, 279
-Fixed Effects:
-(Intercept)        bio15         bio2         bio4         elev           ia  
-    1.18866      0.05992     -0.19212      0.26463      0.25501      0.36077  
+#MORAN'S I TEST FOR THE BEST GLMM MODEL 
 
-attr(,"rank")
-function (x) 
-do.call("rank", list(x))
-<environment: 0x000002099f67caf8>
-attr(,"call")
-AICc(x)
-attr(,"class")
-[1] "function"     "rankFunction"
-attr(,"beta")
-[1] "none"
+MMoran I statistic standard deviate = 3.6123, p-value = 0.0001518
+alternative hypothesis: greater
+sample estimates:
+Moran I statistic       Expectation          Variance 
+      0.133297694      -0.003597122       0.001436193 
 
-*********Relative Importance of Variables*********
+#GEARY'S C TEST FOR THE BEST GLMM MODEL 
 
-                     elev ia   bio4 bio2 bio15 bio18 bio19
-Sum of weights:      0.93 0.92 0.80 0.77 0.31  0.30  0.30 
-N containing models:   64   64   64   64   64    64    64 
+Geary C statistic standard deviate = 1.3086, p-value = 0.09534
+alternative hypothesis: Expectation greater than statistic
+sample estimates:
+Geary C statistic       Expectation          Variance 
+      0.946672130       1.000000000       0.001660768 
 
-*********Marginal and Conditional R²*********
+
+#VIF TEST FOR THE BEST GLMM MODEL 
+Low Correlation
+
+ Term  VIF   VIF 95% CI Increased SE Tolerance Tolerance 95% CI
+ bio2 1.44 [1.27, 1.71]         1.20      0.70     [0.58, 0.79]
+ bio4 1.69 [1.46, 2.02]         1.30      0.59     [0.50, 0.68]
+ elev 1.49 [1.31, 1.77]         1.22      0.67     [0.56, 0.77]
+   ai 2.27 [1.93, 2.75]         1.51      0.44     [0.36, 0.52]
+
+
+#R² BEST GLMM MODEL 
 
                 R2m       R2c
-delta     0.1817525 0.8841518
-lognormal 0.1833238 0.8917952
-trigamma  0.1799509 0.8753876
+delta     0.1802588 0.8834867
+lognormal 0.1818282 0.8911784
+trigamma  0.1784592 0.8746664
 
-*********Dispersion Test*********
-
-data:  simulationOutput
-dispersion = 2.0745, p-value = 0.08
-alternative hypothesis: two.sided
-
-*********Normality Test (Shapiro-Wilk)*********
-
-data:  simulated_residuals_glmm$scaledResiduals
-W = 0.94007, p-value = 3.17e-09
-
-*********Collinearity Test (VIF)*********
-
-    bio2     bio4    bio15     elev       ia    bio18    bio19 
-1.829897 3.700557 2.589061 1.798871 6.017387 3.392221 3.051221 
-
-*********Autocorrelation Test (Durbin-Watson)*********
-
-data:  residuals ~ fitted_values
-DW = 1.8425, p-value = 0.1781
-alternative hypothesis: true autocorrelation is not 0	
-
-*********Final GLMM Model*********
-
-Generalized linear mixed model fit by maximum likelihood (Laplace Approximation) ['glmerMod']
- Family: Negative Binomial(2650.068)  ( log )
-Formula: S.obs ~ bio2 + (1 | locality_id) + bio4 + elev + ia
-   Data: glmm_richness
-Control: glmerControl(optimizer = "bobyqa")
-
-     AIC      BIC   logLik deviance df.resid 
-  1546.0   1571.4   -766.0   1532.0      272 
-
-Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--0.90837 -0.41153 -0.07101  0.22723  0.62411 
-
-Random effects:
- Groups      Name        Variance Std.Dev.
- locality_id (Intercept) 0.9946   0.9973  
-Number of obs: 279, groups:  locality_id, 279
-
-Fixed effects:
-            Estimate Std. Error z value Pr(>|z|)    
-(Intercept)  1.18922    0.07229  16.450  < 2e-16 ***
-bio2        -0.18394    0.08544  -2.153  0.03133 *  
-bio4         0.21430    0.09183   2.334  0.01961 *  
-elev         0.24789    0.08418   2.945  0.00323 ** 
-ia           0.33518    0.10468   3.202  0.00137 ** 
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Correlation of Fixed Effects:
-     (Intr) bio2   bio4   elev  
-bio2  0.032                     
-bio4 -0.024  0.343              
-elev -0.036 -0.446 -0.342       
-ia   -0.045  0.511  0.637 -0.535
-
-*********Marginal and Conditional R²*********
-
-                R2m       R2c
-delta     0.1803726 0.8840221
-lognormal 0.1819337 0.8916730
-trigamma  0.1785827 0.8752494
-
-*********Dispersion Test*********
-
-data:  simulationOutput
-dispersion = 2.0144, p-value = 0.112
-alternative hypothesis: two.sided
-
-*********Normality Test (Shapiro-Wilk)*********
-
-data:  simulated_residuals_important$scaledResiduals
-W = 0.93354, p-value = 7.277e-10
-
-*********Collinearity Test (VIF)*********
-
-   bio2     bio4     elev       ia 
-1.435797 1.685869 1.485246 2.273769 
-
-*********Autocorrelation Test (Durbin-Watson)*********
-
-data:  residuals ~ fitted_values
-DW = 1.8388, p-value = 0.1684
-alternative hypothesis: true autocorrelation is not 
-
-*********PERMANOVA Test*********
+#PERMANOVA
 
 Permutation test for adonis under reduced model
 Terms added sequentially (first to last)
 Permutation: free
 Number of permutations: 1000
 
-adonis2(formula = distance_matrix ~ bio2 + bio4 + bio15 + bio18 + bio19 + elev + ia, data = environmental_data, permutations = 1000)
+adonis2(formula = distance_matrix ~ bio2 + bio4 + bio15 + bio18 + elev + ai, data = environmental_data, permutations = 1000)
           Df SumOfSqs      R2      F   Pr(>F)    
-bio2       1    1.019 0.00763 2.1888 0.000999 ***
-bio4       1    0.615 0.00460 1.3211 0.052947 .  
-bio15      1    1.957 0.01466 4.2050 0.000999 ***
-bio18      1    1.070 0.00801 2.2991 0.000999 ***
-bio19      1    0.768 0.00575 1.6510 0.008991 ** 
-elev       1    1.046 0.00783 2.2472 0.000999 ***
-ai         1    0.918 0.00687 1.9717 0.003996 ** 
-Residual 271  126.134 0.94463                    
-Total    278  133.527 1.00000                    
+bio2       1    1.017 0.00762 2.1838 0.000999 ***
+bio4       1    0.614 0.00460 1.3189 0.061938 .  
+bio15      1    1.968 0.01474 4.2250 0.000999 ***
+bio18      1    1.067 0.00799 2.2903 0.000999 ***
+elev       1    1.093 0.00819 2.3460 0.000999 ***
+ai         1    1.016 0.00761 2.1811 0.000999 ***
+Residual 272  126.700 0.94924                    
+Total    278  133.475 1.00000                    
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-
