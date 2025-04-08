@@ -100,23 +100,3 @@ Low Correlation
 delta     0.1802588 0.8834867
 lognormal 0.1818282 0.8911784
 trigamma  0.1784592 0.8746664
-
-#PERMANOVA
-
-Permutation test for adonis under reduced model
-Terms added sequentially (first to last)
-Permutation: free
-Number of permutations: 1000
-
-adonis2(formula = distance_matrix ~ bio2 + bio4 + bio15 + bio18 + elev + ai, data = environmental_data, permutations = 1000)
-          Df SumOfSqs      R2      F   Pr(>F)    
-bio2       1    1.017 0.00762 2.1838 0.000999 ***
-bio4       1    0.614 0.00460 1.3189 0.061938 .  
-bio15      1    1.968 0.01474 4.2250 0.000999 ***
-bio18      1    1.067 0.00799 2.2903 0.000999 ***
-elev       1    1.093 0.00819 2.3460 0.000999 ***
-ai         1    1.016 0.00761 2.1811 0.000999 ***
-Residual 272  126.700 0.94924                    
-Total    278  133.475 1.00000                    
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
