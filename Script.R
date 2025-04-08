@@ -379,25 +379,74 @@ print(vif_results)
 
 # Load necessary libraries
 library(vegan) # Used for ecological data analysis, including PERMANOVA
+community_matrix_df <- as.data.frame(community_matrix)
+rownames(community_matrix) <- community_matrix$locality_id
+community_matrix <- community_matrix[, -1]
+
+environmental_data <- Environmental_data
+environmental_data <- as.data.frame(environmental_data)
+rownames(environmental_data) <- environmental_data$locality_id
+environmental_data <- environmental_data[, -1]
 
 # Scale environmental data variables to ensure comparability
 environmental_data$bio2 <- scale(environmental_data$bio2)
 environmental_data$bio4 <- scale(environmental_data$bio4)
 environmental_data$bio15 <- scale(environmental_data$bio15)
 environmental_data$elev <- scale(environmental_data$elev)
-environmental_data$ia <- scale(environmental_data$ia)
+environmental_data$ai <- scale(environmental_data$ai)
 environmental_data$bio18 <- scale(environmental_data$bio18)
 
 # Calculate the distance matrix from the community matrix
 distance_matrix <- vegdist(community_matrix)
 
-# Perform PERMANOVA to test the effect of environmental variables on community composition
-permanova_result <- adonis2(distance_matrix ~ bio2 + bio4 + bio15 + bio18 + bio19 + elev + ia, 
-                            data = environmental_data, 
-                            permutations = 1000)
 
-# Print the PERMANOVA results
-print(permanova_result)
+# Perform PERMANOVA with marginal effects
+permanova_marginal <- adonis2(distance_matrix ~ bio2 + bio4 + bio15 + bio18 + elev + ai,
+                              data = environmental_data,
+                              permutations = 9999,
+                              by = "margin")
+
+print(permanova_marginal)
 
 # Save the PERMANOVA results to a CSV file for further examination
-write.csv(as.data.frame(permanova_result), "permanova_results.csv", row.names = TRUE)
+write.csv(as.data.frame(permanova_marginal), "permanova_results.csv", row.names = TRUE)
+
+# Performing the PCoA
+pcoa_result <- cmdscale(distance_matrix, eig = TRUE, k = 2)
+
+# Converting the PCoA results into a data frame
+pcoa_df <- as.data.frame(pcoa_result$points)
+colnames(pcoa_df) <- c("PCoA1", "PCoA2")  # Nomeando colunas
+pcoa_df$locality_id <- rownames(community_matrix)
+
+# Adjusting the environmental variables with envfit
+env_fit <- envfit(pcoa_result, environmental_data, perm = 9999)
+
+# Generating the PCoA graph
+plot(pcoa_result$points, 
+     type = "n",  # Sem plotar os pontos inicialmente
+     xlab = "PCoA 1", ylab = "PCoA 2"
+)
+
+# Adding the locality identifiers (numbers)
+text(pcoa_result$points, labels = rownames(community_matrix), col = "red", cex = 0.8, pos = 3)
+
+# Adding the significant environmental vectors (p < 0.05
+plot(env_fit, p.max = 0.05, col = "blue")
+
+
+# Extracting the coordinates of the environmental vectors
+env_x <- env_fit$vectors$arrows[, 1] * 1.1  # Multiplying to offset the labels
+env_y <- env_fit$vectors$arrows[, 2] * 1.1
+
+# Extract relevant information from the env_fit object
+env_data <- data.frame(
+  Variable = rownames(env_fit$vectors$arrows),  # Names of the environmental variables
+  PCoA1 = env_fit$vectors$arrows[, 1],         # Coordinates on the PCoA1 axis
+  PCoA2 = env_fit$vectors$arrows[, 2],         # Coordinates on the PCoA2 axis
+  R_squared = env_fit$vectors$r.squared,       # Adjusted R-squared values (if available)
+  P_value = env_fit$vectors$p.values           # P-values from the tests
+)
+
+# Save the data frame to a CSV file
+write.csv(env_data, file = "env_fit_results.csv", row.names = FALSE)
